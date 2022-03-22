@@ -1,0 +1,11 @@
+\beamer@sectionintoc {1}{Pointers and Arrays}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Basic Knowledge}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Dynamic Memory}{17}{0}{1}
+\beamer@sectionintoc {2}{C-style Strings}{21}{0}{2}
+\beamer@sectionintoc {3}{Type Casting}{47}{0}{3}
+\beamer@subsectionintoc {3}{1}{Safe Conversions}{52}{0}{3}
+\beamer@subsectionintoc {3}{2}{Dangerous Conversions}{56}{0}{3}
+\beamer@subsectionintoc {3}{3}{Summary}{71}{0}{3}
+\beamer@sectionintoc {4}{A Peek of C++}{72}{0}{4}
+\beamer@subsectionintoc {4}{1}{Type Casting}{73}{0}{4}
+\beamer@subsectionintoc {4}{2}{Function Overloading}{78}{0}{4}

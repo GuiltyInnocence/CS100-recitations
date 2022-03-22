@@ -1,0 +1,9 @@
+\frametitle{Match of Overloaded Functions}
+Suppose we have the following overloaded functions
+    \begin{cpp}
+void fun(int);
+void fun(double);
+void fun(int *);
+void fun(int const *);
+    \end{cpp}
+    How does a function call find the best match?

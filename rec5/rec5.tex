@@ -27,8 +27,8 @@
 \usecolortheme{wolverine}
 
 \title{CS100 Recitation 5}
-\author{GKxx}
-\date{March 21, 2022}
+\author{Dinghao Cheng (Special thanks:GKxx)}
+\date{March 22, 2022}
 
 \AtBeginSubsection{
     \begin{frame}{Contents}
@@ -66,7 +66,8 @@
     \end{dfn}
     The term \blue{stream} is intended to suggest that the characters are \blue{generated}, or \blue{consumed}, sequentially over time.\\
     \pause
-    Standard input and output streams: \bluett{stdin} and \bluett{stdout}.
+    Standard input and output streams: \bluett{stdin} and \bluett{stdout}.\\
+    Also there is \bluett{stderr} for error message output.
     \begin{itemize}
         \item \ttt{scanf}, \ttt{gets}, \ttt{getchar}: read from \ttt{stdin}.
         \item \ttt{printf}, \ttt{puts}, \ttt{putchar}: write to \ttt{stdout}.
@@ -80,10 +81,11 @@
     We can redirect the standard streams to files:
     \begin{itemize}
         \item Use \ttt{< filename} to redirect \bluett{stdin} to a file.
-        \item Use \ttt{> filename} to redirect \bluett{stdout} to a file.
+        \item Use \ttt{> filename} to redirect \bluett{stdout} to a file (destroy contents, like \ttt{"w"}).
+        \item Use \ttt{>> filename} to redirect \bluett{stdout} to a file (append at the end, like \ttt{"a"}).
         \pause
         \item Example: \ttt{./program < test.in > test.out}
-        \item The online grader redirects your program and compares the output file with the answer file.
+        \item \textbf{The online grader} redirects your program and compares the output file with the answer file.
         \pause
         \item Input from any file terminates with \redtt{EOF}!
         \begin{itemize}
@@ -133,12 +135,35 @@ int main() {
     \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Big idea: Everything is a File}
+    \begin{itemize}
+        \item An important philosophy of UNIX (and Linux)
+        \item Directory, harddisk, floppy disk, CD-ROM, network adaptor, modem, monitor, keyboard, printer, etc. \textbf{are all files}.
+        \pause
+        \item Also \ttt{stdin} and \ttt{stdout}
+    \end{itemize}
+    \pause
+    \begin{cpp}
+fscanf(stdin,"%s",str);
+fprintf(stdout,"%s",str);
+    \end{cpp}
+\end{frame}
+
+\begin{frame}[fragile]{pipe}
+    \begin{itemize}
+        \item \ttt{pipe}: a special type of \blue{file} used to connect two processes.
+        \item Usage: \texttt{command1 | command2} 
+        \item pass the \bluett{stdout} of command1 to the \bluett{stdin} of command2.
+        \item There are a set of tools in GNU in cooperate with pipe to implement complex works.
+        \item If you are using Linux, refer to the man page of \ttt{xargs}, \ttt{awk}, \ttt{sed} and other tools.
+    \end{itemize}
+\end{frame}
 \subsection{String Input and Output}
 
 \begin{frame}[fragile]{String IO Functions}
     \begin{itemize}
-        \item \ttt{sscanf}: read data in an ``\ttt{scanf}-way'' from a string.
-        \item \ttt{sprintf}: write data in a ``\ttt{printf}-way'' to a string.
+        \item \ttt{sscanf}: read data in an ``\ttt{scanf}-way'' \blue{from a string}.
+        \item \ttt{sprintf}: write data in a ``\ttt{printf}-way'' \blue{to a string}.
     \end{itemize}
     \begin{cpp}
 // roundabout way, just for demostration

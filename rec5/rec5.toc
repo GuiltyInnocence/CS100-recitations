@@ -1,0 +1,11 @@
+\beamer@sectionintoc {1}{IO}{4}{0}{1}
+\beamer@subsectionintoc {1}{1}{Streams}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{Redirect to Files}{7}{0}{1}
+\beamer@subsectionintoc {1}{3}{File Input and Output}{13}{0}{1}
+\beamer@subsectionintoc {1}{4}{String Input and Output}{19}{0}{1}
+\beamer@sectionintoc {2}{Structures}{21}{0}{2}
+\beamer@subsectionintoc {2}{1}{Define a Structure}{21}{0}{2}
+\beamer@subsectionintoc {2}{2}{Operations on \leavevmode {\color {blue}\texttt {struct}}}{32}{0}{2}
+\beamer@sectionintoc {3}{Coding}{44}{0}{3}
+\beamer@subsectionintoc {3}{1}{Good Coding-style}{44}{0}{3}
+\beamer@subsectionintoc {3}{2}{Examples}{46}{0}{3}

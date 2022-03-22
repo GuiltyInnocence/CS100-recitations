@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Before class}{2}{0}{1}
+\beamer@sectionintoc {2}{Foundations of C - have a glance}{3}{0}{2}
+\beamer@subsectionintoc {2}{1}{Language Standards}{3}{0}{2}
+\beamer@subsectionintoc {2}{2}{Arithmetic Types}{8}{0}{2}
+\beamer@subsectionintoc {2}{3}{Functions}{29}{0}{2}
+\beamer@subsectionintoc {2}{4}{Operator Precedence and Associativity}{44}{0}{2}

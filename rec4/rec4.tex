@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass{beamer}
 
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{url}
-
+\usepackage{listings}
 \usepackage{../cppenv}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
@@ -26,8 +26,9 @@
 \usecolortheme{wolverine}
 
 \title{CS100 Recitation 4}
-\author{GKxx}
-\date{March 14, 2022}
+\author{Dinghao Cheng}
+\institute{Special thanks: Gkxx}
+\date{March 15, 2022}
 
 \begin{document}
 
@@ -66,6 +67,31 @@ int *p2 = &a[0];
         \pause
         \item \ttt{p1 + 3} is the same as \ttt{\&p1[3]}.
     \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Array and Pointer......}
+    \begin{itemize}
+        \item What's wrong with this code snippet?
+        \begin{cpp}
+char* str=(char*)malloc(sizeof(char)*10000);
+memset(str,0,sizeof(str));
+        \end{cpp}
+        \pause
+        \item Consider: What does \texttt{sizeof(str)} return?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{How to find bugs easily?}
+    \begin{cpp}
+char* str=(char*)malloc(sizeof(char)*10000);
+memset(str,0,sizeof(str));
+    \end{cpp}
+    \begin{itemize}
+    \item \blue{Use Warnings!!!}
+    \pause
+    \item \texttt{-Wpedantic -Wall -Wextra}
+    \end{itemize}
+    \includegraphics[width=\linewidth]{pic1.jpg}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -159,7 +185,7 @@ int **magicSquare(int n) {
     \ttt{free(p)} frees the memory that starts at the address pointed by \ttt{p}.
     \begin{itemize}
         \item If \ttt{p} is not pointing to some memory that is dynamically allocated, \ttt{free(p)} causes runtime-error.
-        \item The system knows the size of the memory, and the entire piece of memory will be freed. You cannot free only a part of it.
+        \item The system knows the size of the memory, and the entire piece of memory will be freed. You \red{cannot free only a part of it}.
         \item Any attempt to free only a part of a piece of memory causes runtime-error.
     \end{itemize}
 \end{frame}
@@ -462,19 +488,22 @@ fun(arr);
     \end{itemize}
     \pause
     \begin{question}
-        How does \ttt{malloc} return a pointer?
+        How does \ttt{scanf} work?
     \end{question}
 \end{frame}
 
 \begin{frame}[fragile]{Conversions between Pointers}
     \begin{cpp}
-void *malloc(size_t size);
-int *arr = (int *)malloc(sizeof(int) * n);
+double dval = 3.14;
+printf("%d\n", dval);
+scanf("%d", &dval);
     \end{cpp}
+    \pause
     \begin{itemize}
-        \item \ttt{malloc} does not know what type of data will be stored, so it returns a \bluett{void }\ttt{*} pointer.
-        \item The conversion from \bluett{void }\ttt{*} to pointer of other types can happen implicitly in C,
-        \item but it is recommended to do it explicitly.
+        \item \ttt{printf}: conversion from \bluett{double} to \bluett{int}, which is safe, though may lose precision.
+        \item \ttt{scanf}: conversion from \bluett{double }\ttt{*} to \bluett{int }\ttt{*}, which is \red{undefined behavior}.
+        \pause
+        \item \ttt{scanf} has no idea what types of pointers you pass to it, so it first uses \bluett{void }\ttt{*} for every pointer, and then converts them according to the format string.
     \end{itemize}
 \end{frame}
 

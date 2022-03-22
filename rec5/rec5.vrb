@@ -1,0 +1,19 @@
+\frametitle{Dynamic Allocation}
+\ttt{malloc} and \ttt{free} as usual.
+    \begin{cpp}
+Tile *thetile
+  = (Tile *)malloc(sizeof(Tile));
+Tile *manytiles
+  = (Tile *)malloc(sizeof(Tile) * n);
+free(thetile); free(manytiles);
+    \end{cpp}
+    \pause
+    Access through pointers: dereference, and then access.
+    \begin{cpp}
+*thetile.num = 1;   // Error!
+(*thetile).num = 1; // Correct
+thetile->num = 1;   // Preferred
+    \end{cpp}
+    \begin{rmk}
+        The \blue{member-access operator} has \textbf{higher} precedence than the \blue{dereference operator}.
+    \end{rmk}
