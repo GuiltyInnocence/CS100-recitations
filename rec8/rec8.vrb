@@ -1,0 +1,12 @@
+\frametitle{\decltype is Honest}
+When \decltype is used on an expression that yields an \blue{lvalue}, the result is a reference (Why?).
+    \begin{cpp}
+int i = 42, *p = &i;
+int j = 50;
+decltype(*p) r = j;   // r is int & bound to j.
+    \end{cpp}
+    An object itself can be used as an expression (which yields an \blue{lvalue}!), but you should place it in a pair of parentheses to show this explicitly.
+    \begin{cpp}
+decltype(i) k = 65;   // k is int
+decltype((i)) l = k;  // l is int & bound to k.
+    \end{cpp}

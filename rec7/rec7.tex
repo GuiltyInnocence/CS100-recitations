@@ -1,0 +1,818 @@
+\documentclass{beamer}
+
+\usepackage{../cppenv}
+\usepackage{../recdefs}
+
+\usepackage{float, graphicx}
+\usepackage[]{ctex}
+\usetheme{EastLansing}
+
+\title{CS100 Recitation 7}
+\author{Dinghao Cheng / GKxx}
+\date{April 19, 2022}
+
+\AtBeginSection{
+    \begin{frame}{Content}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+% \section{Idea of Encapsulation}
+
+% \begin{frame}{Drawbacks of a Simple \struct}
+%     Take the \ttt{Linked\_list} as an example:
+%     \begin{itemize}
+%         \item Users can directly access and modify the structure of the list, \textbf{without letting the list know!}
+%         \item Even though methods of `create' and `destroy' are provided, memory management is still a problem because users may forget to call them (or fail to call them correctly).
+%         \item The name of every function starts with `\ttt{linked\_list}', which is lengthy and inconvenient.
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}
+%     \begin{figure}[h]
+%         \centering
+%         \includegraphics[height=0.9\textheight]{figures/lamp.jpg}
+%     \end{figure}
+% \end{frame}
+
+% \begin{frame}[fragile]{Separate Implementation Details and Interfaces}
+%     \begin{columns}
+%         \begin{column}{0.5\linewidth}
+%             \begin{cpp}
+% struct Point2d {
+%  private:
+%   // implementation details
+%   double x, y;
+%  public:
+%   // interfaces
+%   void set_x(double new_x)
+%     { x = new_x; }
+%   void set_y(double new_y)
+%     { y = new_y; }
+%   double get_x()
+%     { return x; }
+%   double get_y()
+%     { return y; }
+% };
+%             \end{cpp}   
+%         \end{column}
+%         \begin{column}{0.5\linewidth}
+%             Access modifiers:
+%             \begin{itemize}
+%                 \item \bluett{private}: Only the code inside the class \gray{(or in a \ttt{friend})} can access.
+%                 \item \bluett{public}: Everyone can access.
+%                 \item \gray{\ttt{protected}: Only the code inside the class or in a subclass, or in a \ttt{friend} can access.}
+%             \end{itemize}
+%         \end{column}
+%     \end{columns}
+% \end{frame}
+
+% \begin{frame}[fragile]{Separate Implementation Details and Interfaces}
+%     \begin{itemize}
+%         \item Implementation details should be invisible to others.
+%         \item Interafces are defined for others to use.
+%     \end{itemize}
+%     \begin{center}
+%         \begin{cpp}
+% // In C++, we can directly use the name Point2d without the struct keyword.
+% // The weird typedefs are not needed, either.
+% Point2d p;
+% p.x = 4.2;  // Error!
+% p.set_x(4.2);
+% p.set_y(3.5);
+% std::cout << "(" << p.get_x() << ", "
+%           << p.get_y() << ")" << std::endl;
+%         \end{cpp}    
+%     \end{center}
+% \end{frame}
+
+\section{Basic Knowledge}
+
+% \begin{frame}[fragile]{\class or \struct?}
+%     In C++, \textbf{the only differences} between \class and \struct are
+%     \begin{itemize}
+%         \item \blue{Default access level} for a \class is \bluett{private}, while for a \struct is \bluett{public}.
+%         \begin{columns}
+%             \begin{column}{0.5\linewidth}
+%                 \begin{cpp}
+% class Point {
+%   double x, y; // private here
+%   // Other members.
+% };
+%                 \end{cpp}
+%             \end{column}
+%             \begin{column}{0.5\linewidth}
+%                 \begin{cpp}
+% struct Point {
+%   double x, y; // public here
+%   // Other members.
+% };
+%                 \end{cpp}
+%             \end{column}
+%         \end{columns}
+%         \item \gray{Default inheritance protection level for a \ttt{class} is \ttt{private}, while for a \ttt{struct} is \ttt{public}.}
+%     \end{itemize}
+% \end{frame}
+
+\begin{frame}[fragile]{\const Member Functions}
+    Begin with such templete class.
+    \begin{cpp}
+struct Point2d {
+ private:
+  // implementation details
+  double x, y;
+ public:
+  // interfaces
+  void set_x(double new_x)
+    { x = new_x; }
+  void set_y(double new_y)
+    { y = new_y; }
+  double get_x()
+    { return x; }
+  double get_y()
+    { return y; }
+};
+    \end{cpp}
+\end{frame}
+
+\begin{frame}[fragile]{\const Member Functions}    
+    \begin{cpp}
+void print_point(const Point2d &p) {
+  std::cout << "(" << p.get_x() << ", "
+            << p.get_y() << ")" << std::endl;
+}
+    \end{cpp}
+    \begin{itemize}
+        \item The parameter should be declared as \const reference, since it is not modified.
+        \item However, the code above won't compile.
+        \item \blue{We need to specify what we can do on \ttt{const} objects.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\const Member functions}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{cpp}
+struct Point2d {
+ private:
+  double x, y;
+ public:
+  void set_x(double new_x)
+    { x = new_x; }
+  void set_y(double new_y)
+    { y = new_y; }
+  double get_x() const
+    { return x; }
+  double get_y() const
+    { return y; }
+};
+            \end{cpp}        
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item On a non-\const object, both \const members and non-\const members can be called.
+                \item On a \const object, only the \const members can be called.
+                \item A \const member function should not modify the data members.
+            \end{itemize}
+            Use \const whenever possible!
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{The \this Pointer}
+    Inside a member function, when we refer to the name of a member, we are in fact referring to it through the \this pointer.
+    \begin{cpp}
+class Point2d {
+  double x, y;
+ public:
+  void set_x(double new_x) {
+    this->x = new_x;    // equivalent to x = new_x;
+  }
+  // Other members.
+};
+    \end{cpp}
+    \begin{itemize}
+        \item \this is a pointer that points to the object itself. For example, in `\ttt{class Point2d}', \this is of type \ttt{Point2d *}.
+        \item \bluett{static} member function does not have \bluett{this} pointer.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Name Lookup in \class}
+    An exception to the name lookup rule:
+    \begin{itemize}
+        \item Inside a \class, all the class members are visible, no matter they are before or after the usage.
+    \end{itemize}
+    \begin{cpp}
+class Point2d {
+ public:
+  void set_x(double new_x)
+    { x = new_x; }      // OK: The member 'x' is visible here.
+  void set_y(double new_y)
+    { y = new_y; }
+  double get_x() const
+    { return x; }
+  double get_y() const
+    { return y; }
+ private:
+  double x, y;
+};
+    \end{cpp}
+\end{frame}
+
+\begin{frame}[fragile]{Defining Member Functions outside the \class}
+    A member function can be defined outside the \class definition, \textbf{but must be declared inside the class}.
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{cpp}
+class Point2d {
+ public:
+  void set_x(double new_x) {
+    x = new_x;
+  }
+  void set_y(double new_y) {
+    y = new_y;
+  }
+  double get_x() const;
+  double get_y() const;
+ private:
+  double x, y;
+};
+            \end{cpp}        
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Use \blue{operator\ttt{::}} to refer to a name in the class scope.
+            \end{itemize}
+            \begin{cpp}
+double Point2d::get_x() const {
+  return x;
+}
+double Point2d::get_y() const {
+  return y;
+}
+            \end{cpp}
+            \begin{itemize}
+                \item The \const keyword, if needed, must appear at \textbf{both} declaration and definition. It is a part of the function type.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Reference to the Object itself}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{cpp}
+class Point2d {
+ public:
+  Point2d &set_x(double new_x) {
+    x = new_x;
+    return *this;
+  }
+  Point2d &set_y(double new_y) {
+    y = new_y;
+    return *this;
+  }
+  // Other members.
+};
+            \end{cpp}        
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \ttt{set\_x} and \ttt{set\_y} returns a reference to the object itself (which is an \blue{lvalue}) by \ttt{return *this;}
+                \item Then we can do:
+                \begin{cpp}
+p.set_x(4.2).set_y(3.5);
+                \end{cpp}
+                \item Will be mentioned again when we meet reloading \bluett{assignment operations}.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Construction}
+
+\begin{frame}[fragile]{Constructors}
+    \blue{Constructors} (`ctors' for short) define the ways of initializing an object.
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{cpp}
+class Point2d {
+ public:
+  Point2d(double a, double b)
+    : x(a), y(b) {}
+  Point2d() : x(0), y(0) {}
+  // Other members.
+};
+            \end{cpp}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{cpp}
+// Initializing a Point2d object with x = 3.5, y = 4.2
+Point2d p1(3.5, 4.2);
+// Default-initialization calls the default ctor with no arguments.
+Point2d p2;
+// p2 is initialized with x = 0, y = 0.
+            \end{cpp}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Constructors}
+    \begin{itemize}
+        \item The name of a ctor is name of the class.
+        \item The return-type is omitted, because a construction expression always returns the constructed object. The following statement will output \ttt{4.2}.
+        \begin{cpp}
+std::cout << Point2d(4.2, 3.5).get_x() << std::endl;
+        \end{cpp}
+        \item There is a \textbf{constructor initializer list} after the parameters, starting with `\ttt{:}', containing explicit initialization of \blue{several} data members, separated with commas.
+        \item The constructors are often \blue{overloaded}, i.e. we may define several different ways of initialization.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The Ctor Initializer List}
+    The most important part of a ctor is the \textbf{initializer list}.
+    \begin{itemize}
+        \item The ctor-init-list is the part where data members are initialized.
+        \item \textbf{All the data members} will be initialized before the function body begins, \red{\textbf{in the order in which they appear in the class definition}}.
+        \item If a data member does not appear in the ctor-init-list, it is \textbf{default-initialized}.
+        \begin{itemize}
+            \item For built-in types, default-initialization makes the object hold an undefined value.
+            \item For class types, default-initialization is calling the \textbf{default-ctor} of that class.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ctor-init-list: Examples}
+    \begin{itemize}
+        \item The following ctor is \textbf{bad}: (It is default-initializing the members, and then assigning values to them.)
+        \begin{cpp}
+Point2d(double a, double b) {
+  x = a;
+  y = b;
+}
+        \end{cpp}
+        \item The following ctor is \textbf{misleading}:
+        \begin{cpp}
+Point2d(double a, double b) : y(b), x(a) {}
+        \end{cpp}
+        \item The following ctor first default-initializes \ttt{x}, and then initializes \ttt{y} with given value.
+        \begin{cpp}
+Point2d(double b) : y(b) {}
+        \end{cpp}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ctor-init-list: Examples}
+    A typical bug I made (years ago):
+    \begin{cpp}
+class Snake_game {
+  std::vector<Food> foods;
+  size_t num_food;
+  // Other members
+ public:
+  Snake_game(size_t n, /* other args */)
+    : num_food(n), foods(num_food) {}
+  // Other members
+};
+    \end{cpp}
+\end{frame}
+
+\begin{frame}[fragile]{Importance of Using Ctor-init-list}
+    It is strongly suggested to use ctor-init-lists \textbf{routinely}:
+    \begin{itemize}
+        \item Initialize the member directly, instead of first default-initialize it and then assign it with a value.
+        \item Some members cannot be default-initialized or cannot be assigned.
+        \begin{cpp}
+class Foo {
+  const int x;
+  int y;
+ public:
+  Foo(int a, int b) {
+    // Error: x cannot be assigned after initialization.
+    x = a;
+    y = b;
+  }
+};
+        \end{cpp}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Default Initialization}
+    \begin{itemize}
+        \item The \textbf{default ctor} is the ctor with no arguments. It defines the behavior when the object is \textbf{default-initialized} or \textbf{value-initialized}.
+        \item The following code outputs `\ttt{Liu Big God is so strong.}'.
+        \begin{cpp}
+class Point2d {
+ public:
+  Point2d() : x(0), y(0) {
+    std::cout << "Liu Big God is so strong.\n"
+  }
+  // Other members.
+};
+// in main
+Point2d p;
+        \end{cpp}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Default Initialization}
+    \begin{cpp}
+class Line2d {
+  Point2d p0, v;
+ public:
+  Line2d()
+    { std::cout << "Liu Big God is so powerful.\n" }
+  // Other members.
+};
+    \end{cpp}
+    What's the output of the following code (inside the \ttt{main} function)?
+    \begin{cpp}
+Line2d line;
+    \end{cpp}
+    \pause
+    \bluett{Liu Big God is so strong.}\\
+    \bluett{Liu Big God is so strong.}\\
+    \bluett{Liu Big God is so powerful.}
+\end{frame}
+
+\begin{frame}[fragile]{Have a Try}
+    Define a class \ttt{Vector}:
+    \begin{itemize}
+        \item Define the data members \ttt{m\_size}, \ttt{m\_capacity} and \ttt{m\_data}, denoting the number of elements stored, the maximum possible size of the current storage, and a pointer to the storage.
+        \begin{itemize}
+            \item The prefix \ttt{m\_} means `member'.
+        \end{itemize}
+        \item Define a default-ctor that initializes the Vector to an empty Vector, i.e. \ttt{m\_size = 0}, \ttt{m\_capacity = 0}, \ttt{m\_data = \blue{nullptr}}.
+        \item Define a ctor that receives an unsigned number \ttt{n}, which initializes the Vector to be holding \ttt{n} value-initialized \bluett{int}s.
+        \item Define a ctor that receives two pointers \ttt{begin} and \ttt{end} pointing to the beginning and the pass-end of an array. The ctor copies the values from the range of the array.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Constructors}
+    \begin{cpp}
+class Vector {
+  size_t m_size, m_capacity;
+  int *m_data;
+ public:
+  Vector() : m_size(0), m_capacity(0), m_data(nullptr) {}
+  Vector(size_t n) : m_size(n), m_capacity(n),
+    m_data(new int[n]()) {}
+  Vector(int *begin, int *end)
+    : m_size(end - begin), m_capacity(end - begin),
+      m_data(new int[end - begin]()) {
+    for (int *p = m_data; begin != end; ++begin, ++p)
+      *p = *begin;
+  }
+};
+    \end{cpp}
+\end{frame}
+
+\begin{frame}{\bluett{nullptr}}
+    \begin{itemize}
+        \item In C, the null pointer \ttt{NULL} is defined to be of type \bluett{void }\ttt{*}, so that it can be converted to any pointer type.
+        \item However, C++ does not allow implicit conversion from \bluett{void }\ttt{*} to other pointer types. It's possible that \ttt{NULL} is defined as \ttt{(\blue{long})0}.
+        \begin{itemize}
+            \item C++ allows initialization of a pointer with integral literal \ttt{0}, but not other values.
+        \end{itemize}
+        \item Since C++11, we use \bluett{nullptr} as a well-defined null pointer. It is of type \ttt{std::}\bluett{nullptr\_t}, a type defined in \ttt{<cstddef>}. (\ttt{stddef.h} does not have this!)
+    \end{itemize}
+\end{frame}
+
+\newcommand{\new}{\bluett{new}~}
+\newcommand{\delete}{\bluett{delete}~}
+
+\begin{frame}{\new and \delete}
+    \begin{itemize}
+        \item Roughly speaking, \new and \delete are like the C++ version of \ttt{malloc} and \ttt{free}: They allocate memory on heap.
+        \item \new not only \textbf{allocates the memory}, but also \textbf{constructs the object}.
+        \item \delete first \textbf{destructs the object}, and then \textbf{deallocates (frees) the memory}.
+        \item \new and \delete will call the ctor and dtor of the type, while \ttt{malloc} and \ttt{free} won't!
+        \item When you have some object on heap in C++, \textbf{NEVER use \ttt{malloc}/\ttt{calloc}/\ttt{realloc}/\ttt{free}}. You should always use \new and \delete.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\new and \delete}
+    \begin{cpp}
+int *pi = new int;                // default initialization
+int *pi2 = new int();             // value initialization
+int *pia = new int[10];           // default initialization
+int *pia2 = new int[10]();        // value initialization
+int *pia3 = new int[10]{1, 2, 3}; // First three values: 1, 2, 3
+                                  // Others: value initialization
+// call Point2d::Point2d(double, double)
+Point2d *p = new Point2d(3, 4);
+// call Point2d::Point2d()
+Point2d *p2 = new Point2d;
+// call Point2d::Point2d()
+Point2d *p3 = new Point2d();
+    \end{cpp}
+\end{frame}
+
+\begin{frame}{Initialization in \new}
+    \begin{itemize}
+        \item Whenever the explicit initializer is absent, \blue{default initialization} is performed.
+        \item Whenever an explicit initializer is provided but as an empty pair of parentheses, \blue{value initialization} is performed.
+        \item For a class type \textbf{with a user-defined default ctor}, both default initialization and value initialization call the default ctor.
+    \end{itemize}
+    The rules for initialization are \textbf{very complicated}. Now you only need to know these that are listed above.
+\end{frame}
+
+\begin{frame}[fragile]{\new and \delete}
+    \begin{itemize}
+        \item To destroy the object created by \new and free the memory, use \delete.
+        \begin{cpp}
+int *pi = new int();
+// after some operations
+delete pi;
+        \end{cpp}
+        \item For an array type, use \bluett{delete}\ttt{[]}.
+        \begin{cpp}
+int *pia = new int[10]();
+// after some operations
+delete[] pia;
+        \end{cpp}
+        \item \delete will call the destructor of a class type. (We will talk about destructors later.)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{In-class Initializer}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item An \blue{in-class initializer} is used to define the default value for a member.
+                \item When a member with an in-class initializer is \blue{default initialized} or \blue{value initialized}, it will be initialized with the in-class initializer.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{cpp}
+class Point2d {
+  double x = 0, y = 0;
+  // Other members.
+};
+
+class Line2d {
+  // Curly braces are allowed here since C++11.
+  Point2d p0{0, 0}, v{1, 1};
+  // Other members.
+};
+            \end{cpp}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{In-class Initializer}
+    Due to the limitation of compilers (you will learn about it in CS131), parentheses are not allowed in in-class initializer: They will be viewed as function declarations!
+    \begin{cpp}
+class Line2d {
+  // Error: They are seen as function declarations.
+  Point2d p0(0, 0), v(1, 1);
+  int foo(); // Exactly a member function declaration.
+  // Other members.
+};
+    \end{cpp}
+\end{frame}
+
+\begin{frame}{Synthesized Default Ctor}
+    The compiler will generate a default ctor if the following conditions are satisfied:
+    \begin{itemize}
+        \item Each member without a in-class initializer is \blue{default-initializable}, and
+        \item There is no user-defined ctors, or the default ctor is defined as \ttt{=default}.
+    \end{itemize}
+    Many kinds of members are not \blue{default-initializable}, e.g. a reference, or a class type member whose class does not have accessible default ctor.
+\end{frame}
+
+\begin{frame}{Synthesized Default Ctor}
+    The synthesized default ctor will
+    \begin{itemize}
+        \item initialize a member with the in-class initializer, if it has an in-class initializer.
+        \item Otherwise, it will default-initialize the member.
+        \item It is \bluett{public}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Delegating Ctor}
+    Since C++11, a ctor can \blue{delegate} part or all of its work to another ctor:
+    \begin{cpp}
+class Point2d {
+  double x, y;
+ public:
+  Point2d() : Point2d(0, 0) {
+    std::cout << "default ctor body\n";
+  }
+  Point2d(double a, double b) : x(a), y(b) {
+    std::cout << "Point2d(double, double) body\n";
+  }
+};
+// in main
+Point2d p;
+    \end{cpp}
+    The above code outputs ``\bluett{Point2d(double, double) body}'' first, and then ``\bluett{default ctor body}''.
+\end{frame}
+
+\begin{frame}[fragile]{Example}
+    \begin{cpp}
+class Vector {
+  size_t m_size = 0, m_capacity = 0;
+  int *m_data = nullptr;
+ public:
+  // explicitly require a synthesized default ctor
+  Vector() = default;
+  Vector(size_t n) : m_size(n), m_capacity(n),
+    m_data(new int[n]()) {}
+  // delegate to Vector::Vector(size_t)
+  Vector(int *begin, int *end) : Vector(end - begin) {
+    for (int *p = m_data; begin != end; ++begin, ++p)
+      *p = *begin;
+  }
+};
+    \end{cpp}
+\end{frame}
+
+\section{Destruction}
+
+\begin{frame}{Destructor}
+    \begin{definition}[Destructor]
+        Destructor (`dtor' for short) is a member function which is called automatically when the object is destroyed.
+    \end{definition}
+    Several typical cases:
+    \begin{itemize}
+        \item When control flow reaches the end of the scope of a local object.
+        \item When the object (if it is \bluett{new}ed) is \bluett{delete}d.
+        \item \gray{When an exception happens...}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Define a Dtor}
+    \begin{itemize}
+        \item A dtor does not return a value. The value-type is omitted.
+        \item The name of a dtor is \ttt{\~}\textit{class-name}. E.g. \ttt{\~{}Point2d}.
+        \item The dtor is unique and cannot be overloaded. A dtor receives no arguments.
+        \item The function body of the dtor does the work that needs to be done when an object is destroyed, e.g. \blue{frees the resources} or output something.
+        \item \textbf{After the function body is executed}, the members are destroyed by calling their own dtors, \textbf{in reverse order} from the order in which they are declared.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Define a Dtor}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            The dtor of the \ttt{Point2d} class doesn't need to do anything.
+            \begin{cpp}
+class Point2d {
+ public:
+  ~Point2d() {}
+  // Other members.
+};
+            \end{cpp}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            The dtor of \ttt{Vector} should free the memory it holds.
+            \begin{cpp}
+class Vector {
+ public:
+  ~Vector() { delete[] m_data; }
+  // Other members.
+};
+            \end{cpp}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Access Level of Ctors and Dtors}
+    \begin{itemize}
+        \item The access restrictions also apply to ctors and dtors. For example, a \bluett{private} ctor can only be accessed inside the class or in its \bluett{friend}s.
+        \item At any part of the code, if the \textbf{dtor} of a class is invisible, then \textbf{constructing} an object of such type is not allowed. (If an object is not destructible, then it is not constructible.)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Synthesized Dtors}
+    \begin{itemize}
+        \item If there is no user-defined dtor, the compiler will generate one by default.
+        \item The synthesized dtor is
+        \begin{itemize}
+            \item \bluett{public},
+            \item with an empty function body,
+            \item \gray{non-virtual},
+            \item \gray{and implicitly \ttt{noexcept}}.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Destructing Order}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{cpp}
+class Point2d {
+ public:
+  ~Point2d() {
+    std::cout<< "Point dtor.\n";
+  }
+  // Other members.
+};
+class Line2d {
+  Point2d p0{0, 0}, v; 
+ public:
+  ~Line2d() {
+    std::cout << "Line dtor.\n";
+  }
+  // Other members.
+};
+            \end{cpp}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            What's the output of the following code?
+            \begin{cpp}
+int main() {
+  Point2d *p = new Point2d();
+  delete p;
+  Line2d l;
+  return 0;
+}
+            \end{cpp}
+            \pause
+            \bluett{Point dtor.}\\
+            \bluett{Line dtor.}\\
+            \bluett{Point dtor.}\\
+            \bluett{Point dtor.}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Overload, Override and Overwrite}
+
+\begin{frame}[fragile]{Overload/重载}
+    \begin{itemize}
+        \item 最显然的一种
+        \item 同一个类声明范围（名字查找范围）
+        \item 例子：构造函数
+        \item \begin{cpp}
+class Point2d {
+public:
+    Point2d(): x(0), y(0) {}
+    Point2d(double _x, double _y): x(_x), y(_y) {}
+private:
+    double x, y;
+};
+        \end{cpp}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Override/覆盖}
+    \begin{itemize}
+        \item 比较清楚的一种
+        \item 覆盖的是父类的虚函数
+        \item 例子：override修饰符（记住，当使用虚函数时，总是标记override！）
+        \item \begin{cpp}
+class base{
+public:
+    virtual void f() {puts("base::f()");}
+};
+class derived: public base{
+public:
+    void f() override {puts("derived::f()");}
+};
+        \end{cpp}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Overwrite/重写（隐藏）}
+    \begin{itemize}
+        \item 最混沌邪恶的一个
+        \item \begin{cpp}
+class base{
+public:
+    virtual void f() {puts("base::f()");}
+};
+class d1: public base{
+public:
+    void f() override {puts("d1::f()");}
+    void f(int a) {puts("d1::f(int)");}
+    void f(double a) {puts("d1::f(double)");}
+};
+class d2: public d1{
+public:
+    void f() override {puts("d2::f()");}
+    void f(int a) {puts("d2::f(int)");}
+};
+        \end{cpp}
+    \end{itemize}
+\end{frame}
+
+\section{Further Reading}
+
+\begin{frame}{Further Reading}
+    \begin{itemize}
+        \item Effective C++ Item 18: Make interfaces easy to use correctly and hard to use incorrectly.
+        \begin{itemize}
+            \item Read until the \ttt{class Month} example (about three pages). The rest part is not for you now.
+        \end{itemize}
+        \item Effective C++ Item 22: Declare data members private.
+    \end{itemize}
+\end{frame}
+
+\end{document}

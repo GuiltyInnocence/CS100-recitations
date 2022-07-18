@@ -1,0 +1,3 @@
+ADD_EXECUTABLE(constructor_desctructor constructor_desctructor.cpp)
+#ADD_EXECUTABLE(destructor_with_pointer destructor_with_pointer.cpp)
+#ADD_EXECUTABLE(initializer_list initializer_list.cpp)

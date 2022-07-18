@@ -1,0 +1,140 @@
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\beamer@sectionpages {1}{2}}
+\headcommand {\beamer@subsectionpages {1}{2}}
+\headcommand {\sectionentry {1}{Copy Control}{3}{Copy Control}{0}}
+\headcommand {\beamer@subsectionpages {3}{2}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{Copying an Object}}
+\headcommand {\slideentry {1}{1}{1}{3/3}{Copying an Object}{0}}
+\headcommand {\beamer@framepages {3}{3}}
+\headcommand {\slideentry {1}{1}{2}{4/4}{Copying an Object}{0}}
+\headcommand {\beamer@framepages {4}{4}}
+\headcommand {\slideentry {1}{1}{3}{5/5}{Copying an Object}{0}}
+\headcommand {\beamer@framepages {5}{5}}
+\headcommand {\slideentry {1}{1}{4}{6/6}{Copying an Object}{0}}
+\headcommand {\beamer@framepages {6}{6}}
+\headcommand {\slideentry {1}{1}{5}{7/9}{Copying an Object}{0}}
+\headcommand {\beamer@framepages {7}{9}}
+\headcommand {\beamer@subsectionpages {3}{9}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{10}{The Copy Constructor}}
+\headcommand {\slideentry {1}{2}{1}{10/10}{The Copy Constructor}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\slideentry {1}{2}{2}{11/12}{The Copy Constructor}{0}}
+\headcommand {\beamer@framepages {11}{12}}
+\headcommand {\slideentry {1}{2}{3}{13/13}{The Copy Constructor}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@subsectionpages {10}{13}}
+\headcommand {\beamer@subsectionentry {0}{1}{3}{14}{The Copy-Assignment Operator}}
+\headcommand {\slideentry {1}{3}{1}{14/14}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\slideentry {1}{3}{2}{15/15}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\slideentry {1}{3}{3}{16/16}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {1}{3}{4}{17/18}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {17}{18}}
+\headcommand {\slideentry {1}{3}{5}{19/20}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {19}{20}}
+\headcommand {\slideentry {1}{3}{6}{21/22}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {21}{22}}
+\headcommand {\slideentry {1}{3}{7}{23/23}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\slideentry {1}{3}{8}{24/24}{The Copy-Assignment Operator}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\beamer@subsectionpages {14}{24}}
+\headcommand {\beamer@subsectionentry {0}{1}{4}{25}{Synthesized Copy Operations}}
+\headcommand {\slideentry {1}{4}{1}{25/25}{Synthesized Copy Operations}{0}}
+\headcommand {\beamer@framepages {25}{25}}
+\headcommand {\slideentry {1}{4}{2}{26/26}{Synthesized Copy Operations}{0}}
+\headcommand {\beamer@framepages {26}{26}}
+\headcommand {\slideentry {1}{4}{3}{27/28}{Synthesized Copy Operations}{0}}
+\headcommand {\beamer@framepages {27}{28}}
+\headcommand {\slideentry {1}{4}{4}{29/29}{Synthesized Copy Operations}{0}}
+\headcommand {\beamer@framepages {29}{29}}
+\headcommand {\slideentry {1}{4}{5}{30/30}{Synthesized Copy Operations}{0}}
+\headcommand {\beamer@framepages {30}{30}}
+\headcommand {\slideentry {1}{4}{6}{31/31}{Synthesized Copy Operations}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\beamer@subsectionpages {25}{31}}
+\headcommand {\beamer@subsectionentry {0}{1}{5}{32}{Prevent Copying}}
+\headcommand {\slideentry {1}{5}{1}{32/32}{Prevent Copying}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\slideentry {1}{5}{2}{33/34}{Prevent Copying}{0}}
+\headcommand {\beamer@framepages {33}{34}}
+\headcommand {\slideentry {1}{5}{3}{35/37}{Prevent Copying}{0}}
+\headcommand {\beamer@framepages {35}{37}}
+\headcommand {\slideentry {1}{5}{4}{38/38}{Prevent Copying}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\beamer@sectionpages {3}{38}}
+\headcommand {\beamer@subsectionpages {32}{38}}
+\headcommand {\sectionentry {2}{More about Class}{39}{More about Class}{0}}
+\headcommand {\beamer@subsectionpages {39}{38}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{39}{Constructors and Type-casting}}
+\headcommand {\slideentry {2}{1}{1}{39/39}{Constructors and Type-casting}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\slideentry {2}{1}{2}{40/40}{Constructors and Type-casting}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\slideentry {2}{1}{3}{41/41}{Constructors and Type-casting}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {2}{1}{4}{42/42}{Constructors and Type-casting}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\beamer@subsectionpages {39}{42}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{43}{Friends}}
+\headcommand {\slideentry {2}{2}{1}{43/43}{Friends}{0}}
+\headcommand {\beamer@framepages {43}{43}}
+\headcommand {\slideentry {2}{2}{2}{44/44}{Friends}{0}}
+\headcommand {\beamer@framepages {44}{44}}
+\headcommand {\slideentry {2}{2}{3}{45/45}{Friends}{0}}
+\headcommand {\beamer@framepages {45}{45}}
+\headcommand {\beamer@subsectionpages {43}{45}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{46}{Constant Member Functions Revisited}}
+\headcommand {\slideentry {2}{3}{1}{46/46}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {46}{46}}
+\headcommand {\slideentry {2}{3}{2}{47/47}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {47}{47}}
+\headcommand {\slideentry {2}{3}{3}{48/49}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {48}{49}}
+\headcommand {\slideentry {2}{3}{4}{50/50}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {50}{50}}
+\headcommand {\slideentry {2}{3}{5}{51/51}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {51}{51}}
+\headcommand {\slideentry {2}{3}{6}{52/52}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {52}{52}}
+\headcommand {\slideentry {2}{3}{7}{53/53}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {53}{53}}
+\headcommand {\slideentry {2}{3}{8}{54/54}{Constant Member Functions Revisited}{0}}
+\headcommand {\beamer@framepages {54}{54}}
+\headcommand {\beamer@sectionpages {39}{54}}
+\headcommand {\beamer@subsectionpages {46}{54}}
+\headcommand {\sectionentry {3}{Type Deduction}{55}{Type Deduction}{0}}
+\headcommand {\beamer@subsectionpages {55}{54}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{55}{\texttt {auto}}}
+\headcommand {\slideentry {3}{1}{1}{55/55}{\texttt {auto}}{0}}
+\headcommand {\beamer@framepages {55}{55}}
+\headcommand {\slideentry {3}{1}{2}{56/56}{\texttt {auto}}{0}}
+\headcommand {\beamer@framepages {56}{56}}
+\headcommand {\slideentry {3}{1}{3}{57/57}{\texttt {auto}}{0}}
+\headcommand {\beamer@framepages {57}{57}}
+\headcommand {\slideentry {3}{1}{4}{58/59}{\texttt {auto}}{0}}
+\headcommand {\beamer@framepages {58}{59}}
+\headcommand {\slideentry {3}{1}{5}{60/60}{\texttt {auto}}{0}}
+\headcommand {\beamer@framepages {60}{60}}
+\headcommand {\beamer@subsectionpages {55}{60}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{61}{\texttt {decltype}}}
+\headcommand {\slideentry {3}{2}{1}{61/61}{\texttt {decltype}}{0}}
+\headcommand {\beamer@framepages {61}{61}}
+\headcommand {\slideentry {3}{2}{2}{62/62}{\texttt {decltype}}{0}}
+\headcommand {\beamer@framepages {62}{62}}
+\headcommand {\slideentry {3}{2}{3}{63/63}{\texttt {decltype}}{0}}
+\headcommand {\beamer@framepages {63}{63}}
+\headcommand {\slideentry {3}{2}{4}{64/64}{\texttt {decltype}}{0}}
+\headcommand {\beamer@framepages {64}{64}}
+\headcommand {\slideentry {3}{2}{5}{65/65}{\texttt {decltype}}{0}}
+\headcommand {\beamer@framepages {65}{65}}
+\headcommand {\beamer@partpages {1}{65}}
+\headcommand {\beamer@subsectionpages {61}{65}}
+\headcommand {\beamer@sectionpages {55}{65}}
+\headcommand {\beamer@documentpages {65}}
+\headcommand {\gdef \inserttotalframenumber {53}}

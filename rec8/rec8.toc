@@ -1,0 +1,13 @@
+\beamer@sectionintoc {1}{Copy Control}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Copying an Object}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{The Copy Constructor}{10}{0}{1}
+\beamer@subsectionintoc {1}{3}{The Copy-Assignment Operator}{14}{0}{1}
+\beamer@subsectionintoc {1}{4}{Synthesized Copy Operations}{25}{0}{1}
+\beamer@subsectionintoc {1}{5}{Prevent Copying}{32}{0}{1}
+\beamer@sectionintoc {2}{More about Class}{39}{0}{2}
+\beamer@subsectionintoc {2}{1}{Constructors and Type-casting}{39}{0}{2}
+\beamer@subsectionintoc {2}{2}{Friends}{43}{0}{2}
+\beamer@subsectionintoc {2}{3}{Constant Member Functions Revisited}{46}{0}{2}
+\beamer@sectionintoc {3}{Type Deduction}{55}{0}{3}
+\beamer@subsectionintoc {3}{1}{\texttt {auto}}{55}{0}{3}
+\beamer@subsectionintoc {3}{2}{\texttt {decltype}}{61}{0}{3}

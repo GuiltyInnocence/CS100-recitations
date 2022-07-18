@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{url}
+\usepackage{ctex}
 
 \usepackage{../cppenv}
 
@@ -27,7 +28,7 @@
 \usecolortheme{wolverine}
 
 \title{CS100 Recitation 5}
-\author{Dinghao Cheng (Special thanks:GKxx)}
+\author{Dinghao Cheng (Special thanks: GKxx)}
 \date{March 22, 2022}
 
 \AtBeginSubsection{
@@ -43,6 +44,8 @@
 \end{frame}
 
 \begin{frame}{Warmup}
+    A Javascript joke:
+    《C既可以字符串和数值运算也可以用乘方运算符》
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/warmup_1.jpg}
@@ -54,6 +57,27 @@
         \centering
         \includegraphics[width=\textwidth]{figures/warmup_2.jpg}
     \end{figure}
+    \pause
+    Hint: the ASCII value of '2' is 50
+\end{frame}
+
+\section{Debugging}
+
+\subsection{Macro in debugging}
+
+\begin{frame}[fragile]{Macro debug output}
+    \begin{cpp}
+/* remove this line when submitting */
+#define DBG_FLAG
+
+#ifdef DBG_FLAG
+#define DI(i) printf("%d\n",(i));
+#define DG(i) puts(i);
+#else
+#define DI(i)
+#define DG(i)
+#endif   
+    \end{cpp}
 \end{frame}
 
 \section{IO}
@@ -153,7 +177,7 @@ fprintf(stdout,"%s",str);
     \begin{itemize}
         \item \ttt{pipe}: a special type of \blue{file} used to connect two processes.
         \item Usage: \texttt{command1 | command2} 
-        \item pass the \bluett{stdout} of command1 to the \bluett{stdin} of command2.
+        \item pass the \bluett{stdout} of \ttt{command1} to the \bluett{stdin} of \ttt{command2}.
         \item There are a set of tools in GNU in cooperate with pipe to implement complex works.
         \item If you are using Linux, refer to the man page of \ttt{xargs}, \ttt{awk}, \ttt{sed} and other tools.
     \end{itemize}

@@ -1,0 +1,390 @@
+\documentclass{beamer}
+
+\usepackage{amsmath}
+
+\usepackage{../cppenv}
+
+\usepackage{../recdefs}
+
+\usetheme{Antibes}
+
+\title{CS100 Recitation 6}
+\author{GKxx}
+\date{March 28, 2022}
+
+\AtBeginSection{
+    \begin{frame}{Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\section{Dynamically Expanding Storage}
+
+\begin{frame}{Motivation}
+    \begin{itemize}
+        \item Store a \blue{compile-time-determined} amount of data
+        \item Store a \blue{runtime-determined} amount of data
+        \item Store an \blue{unknown} amount of data
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Motivation}
+    \begin{itemize}
+        \item Store a \blue{compile-time-determined} amount of data:\\
+        \red{Built-in arrays}.
+        \item Store a \blue{runtime-determined} amount of data:\\
+        \red{Allocate memory on heap (\ttt{malloc}, \ttt{free}, etc.)}.
+        \item Store an \blue{unknown} amount of data?
+        \pause
+        \begin{itemize}
+            \item Suppose we want to create a \blue{list} by appending \(n\) elements one-by-one, as in \ttt{Python}...
+            \pause
+            \item We need some kind of storage that can \red{dynamically grow}.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{What can we do?}
+    \begin{itemize}
+        \item We can allocate a specific number of bytes of memory on heap.
+        \item We \textbf{cannot} specify the \blue{exact location} of the memory allocated. \red{(Why?)}
+    \end{itemize}
+\end{frame}
+
+\subsection{Vector}
+
+\begin{frame}{A Basic Idea}
+    Suppose we have stored \(n\) elements in some \blue{contiguous} memory \ttt{p[0]}, \dots, \ttt{p[n-1]}. When the \((n+1)\)-th element \(x\) comes...
+    \begin{itemize}
+        \item We cannot force the system to allocate the space at \ttt{p[n]}.
+        \pause
+        \item Naive idea:
+        \begin{enumerate}
+            \item Allocate another block of memory \ttt{q[0]}, \dots, \ttt{q[n]} that can contain \(n+1\) elements.
+            \item Copy the original \(n\) elements to the new place.
+            \item Place \(x\) at \ttt{q[n]}.
+            \pause
+            \item Are we done?
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{A Basic Idea}
+    Suppose we have stored \(n\) elements in some \blue{contiguous} memory \ttt{p[0]}, \dots, \ttt{p[n-1]} \textbf{(dynamically allocated)}. When the \((n+1)\)-th element \(x\) comes...
+    \begin{itemize}
+        \item We cannot force the system to allocate the space at \ttt{p[n]}.
+        \item Naive idea:
+        \begin{enumerate}
+            \item Allocate another block of memory \ttt{q[0]}, \dots, \ttt{q[n]} that can contain \(n+1\) elements.
+            \item Copy the original \(n\) elements to the new place.
+            \item Place \(x\) at \ttt{q[n]}.
+            \item \red{\ttt{free(p)}!}
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{A Basic Idea}
+    \begin{cpp}
+int *new_data = (int *)malloc(sizeof(int) * (n + 1));
+for (size_t i = 0; i < n; ++i)
+  new_data[i] = data[i];
+new_data[n] = x;
+free(data);
+data = new_data;
+    \end{cpp}
+    \pause
+    \begin{question}
+        How many times of copying will happen if we append \(n\) elements one-by-one?
+    \end{question}
+\end{frame}
+
+\begin{frame}{Reduce Copying}
+    The number of times of copying that will happen is
+    \[\sum_{i=1}^n(i-1)=\frac{n(n-1)}2,\]
+    which is \red{quadratic} in \(n\). \gray{(Time complexity: \(O(n^2)\))}
+    \pause
+    \begin{itemize}
+        \item What if we allocate more space each time?
+        \pause
+        \item If we allocate space for \red{\(2n\) elements}, we don't need to copy anything when appending the \((n+1)\)-th, \((n+2)\)-th, \dots, \(2n\)-th elements.
+        \pause
+        \begin{itemize}
+            \item \(2n\) and \(n\) are not so different for computers. Don't worry!
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{A Better Way}
+    If we append \blue{\(n=2^m\) elements} one-by-one, the number of times of copying is
+    \[\sum_{i=0}^{m-1}2^i=2^m-1=n-1,\]
+    which is \red{linear} in \(n\).
+    \begin{itemize}
+        \item This idea is adopted in the \blue{C++ \ttt{vector}} library.
+    \end{itemize}
+    \pause
+    \begin{question}
+        Can we do better than linear time?
+    \end{question}
+\end{frame}
+
+\subsection{Linked-list}
+
+\begin{frame}{Another Idea}
+    \begin{itemize}
+        \item What if we don't store data in contiguous memory?
+        \pause
+        \item Suppose we have an element \(x\) stored somewhere.
+        \item When another element \(y\) comes, just allocate the memory for \(y\), but let \(x\) \textit{somehow} \textbf{record} the location of \(y\).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Linked-lists}
+    \begin{cpp}
+typedef struct _record_ {
+  int data;
+  struct _record_ *next_loc;
+} Recorded_data;
+    \end{cpp}
+    \pause
+    Such data structure formed by linking the elements one after another is called the \blue{linked-list}.
+\end{frame}
+
+\begin{frame}[fragile]{Linked-lists}
+    Pros and cons?
+    \pause
+    \begin{itemize}
+        \item Linked-lists are not only \blue{dynamically growing}, but also allowing elements to be inserted/removed anywhere.
+        \begin{itemize}
+            \item In contiguous memory, you need to move all the elements afterwards if you want to insert or remove something in the middle.
+        \end{itemize}
+        \pause
+        \item However, random-access of data is not supported.
+        \pause
+        \item Need some changes to allow \blue{reverse traversal} (e.g. Doubly-linking).
+    \end{itemize}
+    \pause
+    You will learn more in CS101: Algorithm and Data Structures.
+\end{frame}
+
+\begin{frame}{In the End...}
+    \begin{itemize}
+        \item What if the \textbf{type} of data to be stored is unknown?
+        \item How can we store different types of data in one list?
+        \item The functions `\ttt{create}' and `\ttt{destroy}' should be called manually by the user. How can we make them run automatically?
+        \item Assignment and comparison need special named-functions. Can we use \textbf{built-in operators} naturally?
+        \item How can we handle potential \textbf{errors}, like running out of memory or accessing invalid position?
+    \end{itemize}
+    \pause
+    \rightline{\blue{Enter the C++ world to find the answers!}}
+\end{frame}
+
+\section{Entering C++}
+
+\subsection{Libraries}
+
+\begin{frame}{Headers}
+    \begin{itemize}
+        \item The C++ standard library headers are named without extensions.
+        \item C++ standard library also contains the C standard library, with some minor changes...\\
+        \ttt{<name.h>}\quad\(\Longrightarrow\)\quad\ttt{<cname>}.
+        \item We should \textbf{use the C++-style headers} in C++ as they fit better with C++ programs.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Namespaces}
+    \begin{itemize}
+        \item C++ has a large standard library. To avoid name collision, all the names defined in the standard library are defined in the \bluett{namespace }\ttt{std}.
+        \item To use them, add \ttt{std::}before a name.
+    \end{itemize}
+    \pause
+    \begin{cpp}
+// Example: A+B in C++
+#include <iostream>
+
+int main() {
+  int a, b;
+  std::cin >> a >> b;
+  std::cout << a + b << std::endl;
+  return 0;
+}
+    \end{cpp}
+\end{frame}
+
+\begin{frame}[fragile]{Don't be lazy...}
+    \begin{itemize}
+        \item Many people (especially OIers) write this
+        \begin{cpp}
+#include <bits/stdc++.h>
+        \end{cpp}
+        so that everything in the standard library is \bluett{\#include}d.
+        \pause
+        \begin{itemize}
+            \item \ttt{<bits/stdc++.h>} is not part of standard C++. There is no such file on some implementations (like Mac OS X).
+            \item Use what you really need.
+            \item \textbf{It is your task to remember} what library facility you are using and where it is defined.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\ttt{using} Declarations and Directives}
+    A \bluett{using} \blue{declaration} introduces one name from a namespace to the current scope.
+    \begin{cpp}
+using std::cin;
+using std::cout;
+    \end{cpp}
+    \pause
+    A \bluett{using} \blue{directive} makes all the names in a namespace visible without qualification.
+    \begin{cpp}
+using namespace std;
+    \end{cpp}
+    \begin{itemize}
+        \item It is \textbf{not suggested} to use \bluett{using} directives, especially in header files. They reintroduce the name collision problems.
+        \item \textbf{It is your task to remember} whether the name you are using is defined in the standard library.
+    \end{itemize}
+\end{frame}
+
+\subsection{Types}
+
+\begin{frame}{Built-in Types}
+    Better support for boolean type:
+    \begin{itemize}
+        \item \bluett{bool} is a built-in type, not defined in any extra headers.
+        \item \ttt{true} and \ttt{false} are of the type \bluett{bool}.
+        \item The return-type of logical and relation operators is \bluett{bool}, instead of \bluett{int}.
+    \end{itemize}
+    \pause
+    Better support for character and string literals:
+    \begin{itemize}
+        \item Character literals like \ttt{'a'} are of type \bluett{char}, not \bluett{int}.
+        \item String literals like \ttt{"Hello"} are of type \bluett{const char }\ttt{[N+1]}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Type System}
+    C++ is \blue{strongly-typed}.
+    \begin{itemize}
+        \item Dangerous type conversions \textbf{must} happen explicitly.
+        \pause
+        \begin{itemize}
+            \item Conversion between different pointers.
+            \item Casting away low-level \bluett{const}.
+            \item Conversion between pointers and integers.
+        \end{itemize}
+        \pause
+        \item Remember to use \blue{named type-casting operators}: \bluett{static\_cast}, \bluett{const\_cast}, \bluett{reinterpret\_cast}, \bluett{dynamic\_cast}.
+    \end{itemize}
+    \pause
+    C++ is \blue{statically-typed}.
+    \begin{itemize}
+        \item Type of everything should be determined during compile-time.
+        \item Variable-length arrays are \textbf{forbidden}, because they have runtime types.
+    \end{itemize}
+\end{frame}
+
+\subsection{References}
+
+\begin{frame}{Lvalues and Rvalues}
+    Every expression in C++ is either an \blue{lvalue} or an \blue{rvalue}.
+    \begin{itemize}
+        \item When an object is used as an rvalue, we are in fact using its value (contents). When an object is used as an lvalue, we are in fact using the object.
+    \end{itemize}
+    \pause
+    Examples:
+    \begin{itemize}
+        \item \ttt{++i} returns an lvalue, while \ttt{i++} returns an rvalue (the copy of the original value).
+        \pause
+        \item \ttt{*p} (where \ttt{p} is a pointer) returns an lvalue, which is the exact object that \ttt{p} points to.
+        \item \ttt{a[i]} returns an lvalue, which is the exact object indexed \ttt{i}.
+        \pause
+        \item \ttt{a = b} returns an lvalue, which is the object on the left-hand side. In this sense, we can write \ttt{a = b = c}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{References}
+    Reference is an \textbf{alias}.
+    \begin{cpp}
+int i = 42;
+int &r = i; // r is a reference, which is bound to i.
+    \end{cpp}
+    \pause
+    After that, any operation on \ttt{r} is in fact happening on \ttt{i}.
+    \begin{cpp}
+++r;    // increase the value of i.
+std::cout << r << "\n"; // output the value of i.
+    \end{cpp}
+    \pause
+    \begin{itemize}
+        \item References must be explicitly initialized.
+        \item After initialization, the reference cannot be bound to any other object.
+        \item There's no `null references' or `dangling references'. References are safe and convenient to use.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{References}
+    Non-const references must be bound to \blue{lvalues}:
+    \begin{itemize}
+        \item References can be bound to normal variables, pointers, arrays, functions.
+        \begin{cpp}
+int i = 42, j = 50;
+int *p = &i;
+int *&r = p;    // bound to a pointer p.
+r = &j;         // p is now pointing to j.
+        \end{cpp}
+        \pause
+        \item References are quite useful in function parameter declarations.
+        \begin{cpp}
+void swap(int &a, int &b) {
+  int tmp = a;
+  a = b;
+  b = tmp;
+}
+        \end{cpp}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{References}
+    \begin{cpp}
+void print_array10(int (&arr)[10]) {
+  for (int i = 0; i < 10; ++i)
+    std::cout << arr[i] << ' ';
+}
+// in main
+int a[10] = {0};
+print_array10(a);   // OK.
+int b[5] = {0};
+print_array10(b);   // Error.
+int i = 42;
+print_array10(&i);  // Error.
+    \end{cpp}
+\end{frame}
+
+\begin{frame}[fragile]{References}
+    \bluett{const} references: particularly refer to low-level \bluett{const} references.
+    \begin{itemize}
+        \item Reference is not an object itself. There's no references for references.
+        \item You can't change which object a reference is bound to, so every reference is `top-level \bluett{const}' in semantics.
+        \pause
+        \item A \bluett{const} reference can be bound to either a \bluett{const} object or a non-\bluett{const} object.
+        \item Like low-level \bluett{const} pointers, you cannot modify the object through a \bluett{const} reference.
+        \pause
+        \item \bluett{const} references can also be bound to \textbf{rvalues}!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{References}
+    \bluett{const} references are widely used for C++ function parameters.
+    \begin{itemize}
+        \item It accepts both lvalues and rvalues.
+        \item \textbf{It avoids copying}.
+    \end{itemize}
+    Whenever your parameter should remain unchanged, just declare it as a \bluett{const} reference!\\
+    \(\Rightarrow\) \textit{Effective C++}, Item 3: Use \ttt{const} whenever possible.
+\end{frame}
+
+\end{document}

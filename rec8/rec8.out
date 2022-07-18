@@ -1,0 +1,13 @@
+\BOOKMARK [2][]{Outline0.1}{Copy\040Control}{}% 1
+\BOOKMARK [3][]{Outline0.1.1.3}{Copying\040an\040Object}{Outline0.1}% 2
+\BOOKMARK [3][]{Outline0.1.2.10}{The\040Copy\040Constructor}{Outline0.1}% 3
+\BOOKMARK [3][]{Outline0.1.3.14}{The\040Copy-Assignment\040Operator}{Outline0.1}% 4
+\BOOKMARK [3][]{Outline0.1.4.25}{Synthesized\040Copy\040Operations}{Outline0.1}% 5
+\BOOKMARK [3][]{Outline0.1.5.32}{Prevent\040Copying}{Outline0.1}% 6
+\BOOKMARK [2][]{Outline0.2}{More\040about\040Class}{}% 7
+\BOOKMARK [3][]{Outline0.2.1.39}{Constructors\040and\040Type-casting}{Outline0.2}% 8
+\BOOKMARK [3][]{Outline0.2.2.43}{Friends}{Outline0.2}% 9
+\BOOKMARK [3][]{Outline0.2.3.46}{Constant\040Member\040Functions\040Revisited}{Outline0.2}% 10
+\BOOKMARK [2][]{Outline0.3}{Type\040Deduction}{}% 11
+\BOOKMARK [3][]{Outline0.3.1.55}{auto}{Outline0.3}% 12
+\BOOKMARK [3][]{Outline0.3.2.61}{decltype}{Outline0.3}% 13
